@@ -69,14 +69,14 @@ class DentaBot extends ActivityHandler {
         });
     }
 	   async queryCognitiveLanguageService(question) {
-        const endpoint = "https://denta-lang-service.cognitiveservices.azure.com/language/:query-knowledgebases";
-        const projectName = "DentalQna"; // Your project name
+        const endpoint = process.env.QnAEndpointHostName + "/language/:query-knowledgebases";
+        const projectName = process.env.QnAKnowledgebaseId; // Your project name
         const apiVersion = "2021-10-01"; // API version
         const deploymentName = "production"; // Deployment name
 
         const url = `${endpoint}?projectName=${projectName}&api-version=${apiVersion}&deploymentName=${deploymentName}`;
         const headers = {
-            'Ocp-Apim-Subscription-Key': '809d24d95432435caacb45a1ee608514', // Use your subscription key
+            'Ocp-Apim-Subscription-Key': process.env.QnAAuthKey, // Use your subscription key
             'Content-Type': 'application/json'
         };
         const body = {
