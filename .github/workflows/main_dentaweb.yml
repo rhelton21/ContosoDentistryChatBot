@@ -23,12 +23,9 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
-
-      - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+          npm install --prefix ./starter/ContosoDentistryChatBot
+          npm run build --if-present --prefix ./starter/ContosoDentistryChatBot
+          npm run test --if-present --prefix ./starter/ContosoDentistryChatBot
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -49,14 +46,11 @@ jobs:
         with:
           name: node-app
 
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
-      
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'dentaWeb'
           slot-name: 'Production'
-          package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0984F13673EF4ACB9DD9FCDA400F6F89 }}
+          package: .
